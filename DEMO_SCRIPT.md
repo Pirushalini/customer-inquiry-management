@@ -1,87 +1,100 @@
-# Coffee Ninja Assessment — 3 to 5 Minute Demo Recording Script
+# Coffee Ninja Assessment — 3 to 5 Minute Demo Recording Guide
 
-This script provides an exact, step-by-step presentation outline to follow when recording your 3–5 minute technical walkthrough.
+This document outlines the **actual screen recording** of the Customer Inquiry Management System submitted for the Coffee Ninja technical assessment.
+
+**Project:** Customer Inquiry Management System  
+**Technology:** React (Vite), Node.js / Express, PostgreSQL  
+**Recording format:** Silent screen recording; narration is **not required**, as confirmed by the Coffee Ninja Hiring Team.  
+**Video 1:** 2 minutes 29 seconds — Application demonstration  
+**Video 2:** 40 seconds — Automated testing  
+**Combined duration:** Approximately **3 minutes 9 seconds** (within the required 3–5 minutes).
 
 ---
 
-## Recording Checklist Before Starting
-- [ ] Docker PostgreSQL container is running (`docker compose up -d`).
-- [ ] Backend is running on port 4000 (`cd server && npm run dev`).
-- [ ] Frontend is running on port 5173 (`cd client && npm run dev`).
-- [ ] Browser window open at `http://localhost:5173/login`.
-- [ ] Secondary browser or incognito window ready to demonstrate cross-user isolation.
-- [ ] Terminal window open showing test commands ready to run.
+## Recording Checklist Before Submission
+
+- [ ] The application demonstration and automated testing clips are joined in that order.
+- [ ] The final recording is between **3 and 5 minutes** long.
+- [ ] The application interface, button clicks, validation messages, and test results are readable.
+- [ ] The final video is exported as an **MP4**, preferably at **1080p**.
+- [ ] Any on-screen feature labels do not cover buttons, form fields, or test output.
+- [ ] The hiring team can open the submitted video link.
 
 ---
 
 ## Timed Walkthrough
 
-### Part 1: Project Overview & Tech Stack (0:00 – 0:45)
-- **Visual**: Show project repository in your IDE and the clean browser landing screen at `http://localhost:5173/login`.
-- **Narration**:
-  > *"Hello, I'm presenting my technical assessment for Coffee Ninja: the Customer Inquiry Management System. The goal was to build a secure, reliable end-to-end workflow where a staff member signs in, records an inquiry, finds it via search or status filters, and advances it through its operational lifecycle.*
-  > *Our stack consists of a React 19 and Vite frontend, a Node.js Express 5 backend, and PostgreSQL 16 running via Docker. For security, we use server-side sessions stored in PostgreSQL using `connect-pg-simple`, `bcryptjs` password hashing, and decoupled Zod validation on both the client and server."*
+### Part 1: Staff Login (0:00–0:10)
+
+- **Visual:** Show the Coffee Ninja staff login screen. Select the Sarah demo account and sign in to the application.
+- **Feature demonstrated:** Staff authentication and access to the application dashboard.
+- **Optional on-screen label:** `Staff Login`
 
 ---
 
-### Part 2: Staff Authentication & Session Persistence (0:45 – 1:30)
-- **Visual**: 
-  1. Click "Sign In" with invalid credentials (`sarah@coffeeninja.com` / `WrongPass`) $\rightarrow$ observe clean error banner.
-  2. Click the quick-fill button for **Sarah Jenkins** (`sarah@coffeeninja.com` / `NinjaPass123!`).
-  3. Click "Sign In" $\rightarrow$ redirects to `/dashboard` showing *"Welcome back, Sarah Jenkins"*.
-  4. Open DevTools Application tab $\rightarrow$ point out the `httpOnly`, `SameSite=Lax` session cookie (`coffee_ninja_sid`).
-  5. Refresh the page $\rightarrow$ show that the session persists seamlessly without storing tokens in `localStorage`.
-- **Narration**:
-  > *"Notice that entering wrong credentials gives a generic error to prevent user enumeration. Once logged in as Sarah, Express regenerates the session to prevent session fixation and issues an `httpOnly` cookie. This persists across page reloads without exposing session tokens to client-side scripts."*
+### Part 2: Dashboard, Search & Filter (0:10–0:35)
+
+- **Visual:** Show the inquiry dashboard after login. Demonstrate the list of customer inquiries, search, and status filtering.
+- **Feature demonstrated:** Staff can find and review their recorded inquiries.
+- **Optional on-screen label:** `Dashboard & Search`
 
 ---
 
-### Part 3: Inquiry Creation & Form Validation (1:30 – 2:30)
-- **Visual**:
-  1. Click **"+ Record New Inquiry"** $\rightarrow$ navigates to `/inquiries/new`.
-  2. Click **"Submit Inquiry"** without filling any fields $\rightarrow$ show field-level error messages for Name, Contact, Subject, and Description.
-  3. Enter an invalid contact (e.g. `test123`) $\rightarrow$ show validation error *"Please provide a valid email address or phone number"*.
-  4. Fill in:
-     - Customer: `Kelly Kapoor`
-     - Contact: `kelly@dundermifflin.com`
-     - Subject: `Vanilla Bean Artisan Roast`
-     - Description: `Requesting special roast blend for office party.`
-  5. Click **"Submit Inquiry"** $\rightarrow$ show button state *"Saving Inquiry..."* (disabled to prevent double submissions) $\rightarrow$ automatically navigates to `/inquiries/:id`.
-- **Narration**:
-  > *"On the inquiry creation form, Zod validates trimmed strings and ensures the contact is either a valid email or phone number. When submitting, the button disables immediately to prevent accidental duplicate submissions, and upon saving to PostgreSQL, we are redirected straight to the new inquiry details."*
+### Part 3: Create New Inquiry & Validation (0:35–1:35)
+
+- **Visual:**
+  1. Open the **New Inquiry** form.
+  2. Submit the empty form to display required-field validation messages.
+  3. Enter the customer's name, contact information, subject, and description.
+  4. Submit the completed form and display the created inquiry.
+- **Features demonstrated:** Form validation, customer inquiry creation, and saving inquiry data.
+- **Optional on-screen label:** `Create New Inquiry`
 
 ---
 
-### Part 4: Operational Lifecycle & Cross-User Security (2:30 – 3:30)
-- **Visual**:
-  1. On the details page, show the current status is **New** and version is **v1**.
-  2. Click **"Start Progress →"** $\rightarrow$ updates status to **In Progress** and version increments to **v2**.
-  3. Click **"Resolve Inquiry ✓"** $\rightarrow$ status becomes **Resolved** (version **v3**).
-  4. Click **"Reopen Inquiry ↺"** $\rightarrow$ status moves back to **In Progress** (version **v4**).
-  5. Note the URL (e.g. `/inquiries/7`). Open an incognito window, log in as **Alex Rivera** (`alex@coffeeninja.com`), and paste that direct URL.
-  6. Observe: Alex sees **"Inquiry Not Found (404)"**.
-- **Narration**:
-  > *"Our lifecycle state machine allows valid progressions: New to In Progress, In Progress to Resolved, and reopening back to In Progress. Every status update increments an internal version column. Notice also that when Alex Rivera attempts to open Sarah's inquiry directly by URL, the backend returns a 404 Not Found. We enforce ownership directly in SQL queries (`WHERE created_by = $userId`), concealing the existence of other users' records."*
+### Part 4: Inquiry Status Management (1:35–2:15)
+
+- **Visual:**
+  1. Open the newly created inquiry details.
+  2. Show its initial **New** status.
+  3. Update it to **In Progress**.
+  4. Update it to **Resolved**.
+- **Feature demonstrated:** Inquiry lifecycle and status updates.
+- **Optional on-screen label:** `Status Management`
 
 ---
 
-### Part 5: Stale-Data Conflict Demonstration (HTTP 409 OCC) (3:30 – 4:30)
-- **Visual**:
-  1. Open the same inquiry in two adjacent browser windows (Window 1 and Window 2).
-  2. In Window 1, click **"Resolve Inquiry"** $\rightarrow$ status updates to Resolved.
-  3. In Window 2 (which still has the older version), click an action button.
-  4. Observe: Backend rejects the stale update with **HTTP 409 Conflict**.
-  5. The UI displays the conflict notice: *"Version Conflict Detected: The inquiry has been modified by another session."*
-  6. Click **"Reload Latest Data"** $\rightarrow$ inquiry status synchronizes to Resolved, version updates, and valid actions reappear without losing application state.
-- **Narration**:
-  > *"Here is how we handle stale data. When Window 1 updates the inquiry, the database version increments. When Window 2 attempts an update using its outdated version, our atomic optimistic locking rejects it with HTTP 409 Conflict. The UI guides the user with a conflict banner and a 'Reload Latest Data' button, allowing them to re-synchronize without overwriting newer data."*
+### Part 5: Security & Access Control (2:15–2:29)
+
+- **Visual:** Sign in as Alex and attempt to open the URL of an inquiry created under Sarah's account. Show the **Inquiry Not Found** result.
+- **Feature demonstrated:** Staff cannot access inquiries owned by another staff member.
+- **Optional on-screen label:** `Security & Access Control`
 
 ---
 
-### Part 6: Automated Test Verification & Wrap-Up (4:30 – 5:00)
-- **Visual**:
-  1. Switch to the terminal.
-  2. Run `npm test` in `server/` $\rightarrow$ show all 5 backend tests passing against `coffee_ninja_test`.
-  3. Run `npm test` in `client/` $\rightarrow$ show all 3 frontend tests passing in Vitest/JSDOM.
-- **Narration**:
-  > *"To ensure high reliability, we have an automated test suite. Our backend tests run against an isolated PostgreSQL test database verifying authentication, ownership security, input validation, state machine transitions, and optimistic locking. Our frontend tests verify form validation and the 409 conflict UI. Thank you for your time!"*
+### Part 6: Automated Testing & Completion (2:29–3:09)
+
+- **Visual:**
+  1. Show the application project in the development environment.
+  2. Run the backend automated tests and show **5 passing tests**.
+  3. Run the frontend automated tests and show **3 passing tests**.
+  4. End the recording after the test results are visible.
+- **Feature demonstrated:** Automated verification of backend and frontend behavior.
+- **Optional on-screen label:** `Automated Testing`
+
+---
+
+## Notes About the Submitted Recording
+
+- This is a **silent** demonstration. The hiring team confirmed that voice narration is optional.
+- On-screen labels are **optional**; they help the viewer follow each section but are not required.
+- The original draft of this guide included demonstrations of invalid login, browser cookie inspection, reopening an inquiry, and a two-window **HTTP 409** stale-data conflict. Those steps are **not presented as recorded** in this final guide.
+- The project source code, setup instructions, design choices, and any other implemented features are documented in the repository's `README.md` and `DECISIONS.md`.
+
+---
+
+## Submission Items
+
+- [ ] GitHub repository link containing the application source code, tests, `README.md`, and `DECISIONS.md`.
+- [ ] Accessible link to the **3:09-minute MP4** demo recording.
+- [ ] This `DEMO_SCRIPT.md` updated in the repository if included as part of the project documentation.

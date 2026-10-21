@@ -32,7 +32,7 @@
 
 ## 3. Trade-off Accepted
 
-- **Form Submission Debouncing vs. Duplicate Prevention**:  
+- **Duplicate Submission Handling**:  
   When submitting inquiries, the frontend immediately disables the submit button to eliminate accidental double-clicks. However, intentional repeated submissions with identical content are allowed as distinct inquiries. Building a complex fuzzy-matching deduplication engine was consciously traded off in favor of simplicity, recognizing that customers occasionally submit identical inquiries for separate orders.
 
 ---
@@ -48,14 +48,14 @@
 ## 5. Testing Gaps and Rationale
 
 - **High-Concurrency Load Testing**: Automated tests verify that optimistic concurrency correctly returns 409 for two conflicting updates. However, simulated load tests with hundreds of simultaneous requests were omitted as the expected volume for this internal portal is low.
-- **Cross-Browser Visual Testing**: Testing was performed on modern desktop and mobile viewports using Vitest/JSDOM and Chromium via an automated browser agent. Dedicated cross-browser suites (e.g., Safari iOS rendering quirks) were omitted in favor of standard CSS compliance.
-
+- **Cross-Browser Visual Testing**: Frontend automated tests were performed using Vitest and JSDOM. Dedicated cross-browser and real mobile-device testing were not included in the automated test suite. The application's main functionality was demonstrated separately through a screen recording.
 ---
-
 ## 6. Transparent Statement on AI Tool Usage
 
-AI assistance was utilized during this project as an intelligent pair-programming and refactoring partner:
-- **Where AI Helped**: Generating initial boilerplate for Zod schemas, creating responsive CSS tokens, drafting Supertest assertion scaffolds, and debugging an Express 5 router incompatibility with wildcards.
-- **Suggestion Accepted**: Using `SELECT ... FOR UPDATE` within a transaction rather than an unsecured `UPDATE ... WHERE version = $1` query, ensuring that status transitions and same-status checks are evaluated against locked row state.
-- **Suggestion Changed**: AI initially suggested using `ON DELETE CASCADE` on the foreign key relationship between `staff_users` and `inquiries`. I rejected this and changed it to `ON DELETE RESTRICT` because customer inquiries must never be deleted automatically when an employee leaves the company.
-- **Suggestion Rejected**: AI suggested adding JSON Web Tokens (JWT) in `localStorage`. I rejected this in favor of `express-session` backed by PostgreSQL with `httpOnly`, `SameSite=Lax` cookies, avoiding XSS token theft and keeping the architecture simple.
+AI tools, including Agent and ChatGPT, were used to assist with the development of this project.
+
+- **AI Assistance:** AI helped with project setup, database design, backend APIs, frontend development, validation, testing, debugging, and documentation.
+- **My Contribution:** I provided the project requirements, guided the AI development process, reviewed the application, and tested its main functionality.
+- **Technical Decisions:** The project uses PostgreSQL, secure staff authentication, inquiry ownership protection, status management, and version-based conflict handling.
+- **Verification:** Backend and frontend automated tests were run, and the application's main features were demonstrated in a screen recording.
+- **Limitations:** Further security, performance, and cross-browser testing would be needed before production deployment.
