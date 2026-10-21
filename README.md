@@ -59,7 +59,7 @@ The database includes two pre-seeded staff accounts for testing and demonstratio
 
 ### 1. Clone the Repository
 ```bash
-git clone <repository-url>
+git clone [<repository-url>](https://github.com/Pirushalini/customer-inquiry-management.git)
 cd customer-inquiry-management
 ```
 
