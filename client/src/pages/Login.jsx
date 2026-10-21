@@ -83,7 +83,7 @@ export function Login() {
     <div className="login-wrapper">
       <div className="login-card">
         <div className="login-header">
-          <div className="login-logo-mark" aria-hidden="true">☕</div>
+          <img src="/coffee-ninja-logo.png" alt="Coffee Ninja Logo" className="login-logo-img" />
           <h1 className="login-title">Staff Portal Sign In</h1>
           <p className="login-subtitle">Coffee Ninja Customer Inquiry Management</p>
         </div>

@@ -63,9 +63,6 @@ export function Dashboard() {
             Welcome back, <strong>{user?.name}</strong>. Here are your assigned customer inquiries.
           </p>
         </div>
-        <Link to="/inquiries/new" className="btn btn-primary new-inquiry-btn">
-          + Record New Inquiry
-        </Link>
       </div>
 
       {/* Filter and Search Bar */}

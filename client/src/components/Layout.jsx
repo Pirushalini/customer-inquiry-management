@@ -17,7 +17,7 @@ export function Layout() {
         <div className="header-container">
           <div className="brand-group">
             <Link to="/dashboard" className="brand-logo" aria-label="Coffee Ninja Dashboard">
-              <span className="brand-icon" aria-hidden="true">☕</span>
+              <img src="/coffee-ninja-logo.png" alt="Coffee Ninja Logo" className="brand-logo-img" />
               <span className="brand-name">Coffee Ninja</span>
               <span className="brand-badge">Inquiry Portal</span>
             </Link>
